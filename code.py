@@ -6,7 +6,7 @@ import neopixel
 touch_right = touchio.TouchIn(board.D6)
 touch_left = touchio.TouchIn(board.D7)
 
-pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=.3, auto_write=False)
+pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=.1, auto_write=False)
 pixels.fill((0, 0, 0))
 
 def wheel(pos):
@@ -25,15 +25,11 @@ def wheel(pos):
 def rainbow_cycle(wait):
     for j in range(255):
         for i in range(1):
-            rc_index = (i * 256 // 1) + j
-            pixels[i] = wheel(rc_index & 255)
-            print(rc_index)
-        if touch_left.value and touch_right.value:
-            pixels.fill((0,0,0))
-            pixels.show()
-        else:
-            pixels.show()
-            time.sleep(wait)
+            if touch_left.value and touch_right.value:
+                rc_index = (i * 256 // 1) + j
+                pixels[i] = wheel(rc_index & 255)
+                pixels.show()
+        time.sleep(wait)
 
 
 while True:
